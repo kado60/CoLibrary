@@ -150,6 +150,9 @@
     location.reload();
   });
 
+      // <p id="${key}" class="delete"><img src ="./img/delete.png" class="deleteBtn" alt="X"></p>
+
+
 // 検索結果表示画面
 $("#pressS").on("click", function(){
 
@@ -157,7 +160,7 @@ $("#pressS").on("click", function(){
     const key = data.key;
     const item = data.val();
     const h = `<div class="bookCard" id="card">
-      <p id="${key}" class="delete"><img src ="./img/delete.png" class="deleteBtn" alt="X"></p>
+      <button id="${key}" class="delete2">自分の投稿を削除</button>
         <table>
           <tr><th>役職</th><td>${item.title}</td></tr>
           <tr><th>書名</th><td>${item.bookName}</td></tr>
@@ -173,7 +176,7 @@ $("#pressS").on("click", function(){
     });
 
 //■ ■ ■　削除機能を追加　■ ■ ■ （全て削除できてしまうので注意）
-    $(document).on("click", ".delete", function(){ 
+    $(document).on("click", ".delete2", function(){ 
         let value = $(this).attr("id");
         const dbRefDel = ref(db, `bookRecommend/${value}`)
         remove(dbRefDel);
