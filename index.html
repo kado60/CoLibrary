@@ -41,7 +41,7 @@
 <!-- 書名を入力 -->
       <h2>Q1 あなたのイチオシの本は？</h2>
       <input id="bookName" type="text" placeholder="チーズはどこへ消えた" size="37"  required>
-      <button type="submit" id="click">Click</button>
+      <button type="submit" id="click">検索</button>
 <!-- ここは非表示にする（検索ページでは表示する情報） -->
       <textarea id="thumbnail"></textarea>
       <textarea id="description"></textarea>
@@ -61,7 +61,7 @@
       <h2>Q4 この本について語ってください！</h2>
       <textarea name="" id="thoughts" cols="50" rows="3" placeholder="記憶に残った一文、読み終わった後に自分の中に残ったもの……"></textarea>
 <!-- 登録ボタン -->
-      <br><input type="submit" value="Register" id="reg_send"></a>
+      <br><input type="submit" value="登録" id="reg_send"></a>
     </div>
 
 <!-- 本を検索するページ -->
@@ -129,6 +129,7 @@
 
     document.getElementById('thumbnail').innerHTML = data.items[0].volumeInfo.imageLinks.thumbnail;
     document.getElementById('description').innerHTML = data.items[0].volumeInfo.description;
+    alert("表紙が登録されました");
   });
 });
 
