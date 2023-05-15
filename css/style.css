@@ -1,0 +1,291 @@
+@charset "UTF-8";
+
+body{
+	font-family: Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	background:#6CD8FF;
+}
+
+.airplane{
+	width: 90px;
+	position: absolute ;
+	padding-top: 45px;
+	padding-left: 1030px
+}
+
+h1{
+	padding:45px 0;
+	color:#664949;
+	font-size:5em;
+	font-weight:bold;
+	text-align:center;
+}
+
+h4{
+	padding:45px 0;
+	color:#664949;
+	font-size:3em;
+	/* font-weight:bold; */
+	text-align:center;
+}
+
+#userInfo{
+	margin-top: 10px;
+	padding: 0.5em;          /* 内側の余白量 */
+	border-radius: 0.9em;   /* 角丸 */
+	font-size: 1.2em;          /* 文字サイズ */
+	text-align: center;
+}
+
+#loginBtns{
+	text-align: center;
+	padding-top: 50px;
+}
+
+main{
+	width:1000px;
+	margin:0 auto;
+	display:block;
+}
+
+ul li{
+	float:left;
+	margin-right:1px;
+	list-style-type:none;
+}
+
+ul li a{
+	font-size:2em;
+	font-weight:bold;
+	color:#FFF;
+	text-decoration:none;
+	display:block;
+	width:292.33px;
+	padding:15px 20px;
+	background:#664949;
+}
+
+ul li a:hover{
+	background:#6f6565;
+	color:#FFF;
+}
+
+ul li a.current{
+	background:#F5F4F2;
+	color:#664949;
+}
+
+#contents{
+	clear:both;
+	margin-bottom:1px;
+}
+
+#contents div{
+	padding:30px 20px;
+	background:#F5F4F2;
+}
+
+#contents p{
+	margin-top:20px;
+	line-height:2em;
+	color:#664949;
+}
+
+#contents strong{
+	font-size:3em;
+	font-weight:bold;
+	color:#664949;
+}
+
+#contents h2{
+	padding-top: 20px;
+	font-size:1.5em;
+	font-weight:bold;
+	color:#664949;
+}
+
+#title{
+	margin-top: 10px;
+	border:3px solid #664949;  /* 枠線 */
+	border-radius: 0.9em;   /* 角丸 */
+	padding: 0.5em;          /* 内側の余白量 */
+	background-color: snow;  /* 背景色 */
+	font-size: 1.2em;          /* 文字サイズ */
+	line-height: 1.2;        /* 行の高さ */	
+}
+
+#bookName{
+	margin-top: 10px;
+	border:3px solid #664949;  /* 枠線 */
+	border-radius: 0.9em;   /* 角丸 */
+	padding: 0.5em;          /* 内側の余白量 */
+	background-color: snow;  /* 背景色 */
+	font-size: 1.2em;          /* 文字サイズ */
+	line-height: 1.2;        /* 行の高さ */	
+}
+
+#click{
+	padding: 0.5em;          /* 内側の余白量 */
+	border-radius: 0.9em;   /* 角丸 */
+	font-size: 1.2em;          /* 文字サイズ */
+
+}
+
+#category{
+	margin-top: 10px;
+	border:3px solid #664949;  /* 枠線 */
+	border-radius: 0.9em;   /* 角丸 */
+	padding: 0.5em;          /* 内側の余白量 */
+	background-color: snow;  /* 背景色 */
+	font-size: 1.2em;          /* 文字サイズ */
+	line-height: 1.2;        /* 行の高さ */	
+}
+
+#sentence{
+	margin-top: 10px;
+	border:3px solid #664949;  /* 枠線 */
+	border-radius: 0.9em;   /* 角丸 */
+	padding: 0.5em;          /* 内側の余白量 */
+	background-color: snow;  /* 背景色 */
+	font-size: 1.2em;          /* 文字サイズ */
+	line-height: 1.2;        /* 行の高さ */	
+}
+
+#thoughts{
+	margin-top: 10px;
+	border:3px solid #664949;  /* 枠線 */
+	border-radius: 0.9em;   /* 角丸 */
+	padding: 0.5em;          /* 内側の余白量 */
+	background-color: snow;  /* 背景色 */
+	font-size: 1.2em;          /* 文字サイズ */
+	line-height: 1.2;        /* 行の高さ */	
+}
+
+#reg_send{
+	margin-top: 10px;
+	padding: 0.5em;          /* 内側の余白量 */
+	border-radius: 0.9em;   /* 角丸 */
+	font-size: 1.2em;          /* 文字サイズ */
+}
+
+#reg_send:hover{
+	background:#a2a1a1;
+}
+
+
+/* 探すの部分 */
+button{
+	padding: 0.5em;          /* 内側の余白量 */
+	border-radius: 0.9em;   /* 角丸 */
+	font-size: 1.2em;          /* 文字サイズ */
+}
+
+input{
+	margin-top: 10px;
+	padding: 0.5em;          /* 内側の余白量 */
+	border-radius: 0.9em;   /* 角丸 */
+	font-size: 1.2em;          /* 文字サイズ */
+}
+
+
+#buttons button:last-child{
+	margin-right:0;
+}
+
+button:focus{
+	outline:none;
+}
+
+button:hover{
+	background:#a2a1a1;
+}
+
+
+#tab2 button{
+	margin-top: 20px;
+	margin-left: 15px;
+}
+
+.bookCard{
+    width: 900px;
+    display: flex;
+    justify-content: space-between;
+	font-size:1.2em;
+    margin: 5px 0 0 0;
+    padding: 5px;
+    border-radius: 5px;
+	border:3px solid #664949;  /* 枠線 */
+}
+
+.bookCard table{
+    width: 650px;
+}
+
+.bookCard table td{
+    width: 1500px;
+	padding-top: 10px;
+}
+
+.bookCard table th{
+    width: 150px;
+	padding-top: 10px;
+}
+
+#thumbnail{
+	display: none;
+}
+
+#description{
+	display: none;
+}
+
+.frontCover{
+	height: 250px;
+}
+
+#tab3 button{
+	margin-top: 20px;
+	margin-left: 15px;
+}
+
+#isbn{
+	display: none;
+}
+
+#isbn_send{
+	display: none;
+}
+
+.hide{
+	display: none;
+}
+
+#thumbnail_r{
+	position: absolute;
+	top: 300px;
+	left: 500px;
+}
+
+#category2{
+	margin-left: 17px;
+	margin-top: 10px;
+	border:2px solid #664949;  /* 枠線 */
+	border-radius: 0em;   /* 角丸 */
+	padding: 0.5em;          /* 内側の余白量 */
+	background-color: snow;  /* 背景色 */
+	font-size: 1.2em;          /* 文字サイズ */
+	line-height: 1.2;        /* 行の高さ */	
+
+}
+
+#category3{
+	margin-left: 20px;
+	margin-top: 10px;
+	border:2px solid #664949;  /* 枠線 */
+	border-radius: 0em;   /* 角丸 */
+	padding: 0.5em;          /* 内側の余白量 */
+	background-color: snow;  /* 背景色 */
+	font-size: 1.2em;          /* 文字サイズ */
+	line-height: 1.2;        /* 行の高さ */	
+
+}

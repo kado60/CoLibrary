@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Co-Library</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="./img/books.png">
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/script.js"></script>
+</head>
+<body>
+<header>
+  <img src="./img/books.png" alt="" class="airplane">
+
+  <h1>Co-Library</h1>
+</header>
+<main>
+
+
+<!-- タブの切り替えによってメインページが変化 -->
+  <ul>
+    <li><a href="#tab1" class="current">Recommend</a></li>
+    <li><a href="#tab2">Search</a></li>
+    <li><a href="#tab3">Discover</a></li>
+  </ul>
+
+<!-- メインページ -->
+  <div id="contents">
+
+<!-- 自分の好きな本を登録するページ -->
+    <div id="tab1">
+      <p><strong>語る</strong></p>
+<!-- 属性を入力 -->
+      <h2>あなたの役職を教えてください</h2>
+      <select id="title" name="title">
+        <option value="職員">職員</option>
+        <option value="管理職">管理職</option>
+        <!-- <option value="経営者">経営者</option> -->
+      </select>
+<!-- 書名を入力 -->
+      <h2>Q1 あなたのイチオシの本は？</h2>
+      <input id="bookName" type="text" placeholder="チーズはどこへ消えた" size="37"  required>
+      <button type="submit" id="click">Click</button>
+<!-- ここは非表示にする（検索ページでは表示する情報） -->
+      <textarea id="thumbnail"></textarea>
+      <textarea id="description"></textarea>
+<!-- 所感（検索ページでの検索条件）を入力 -->
+      <h2>Q2 あなたにとってこの本は？</h2>
+      <select name="category" id="category">
+        <option value="読むと気分が晴れる本">読むと気分が晴れる本</option>
+        <option value="何かに気付かせてくれる本">何かに気付かせてくれる本</option>
+        <option value="しんみりとした気持ちになる本">しんみりとした気持ちになる本</option>
+        <option value="知識・教養を与えてくれる本">知識・教養を与えてくれる本</option>
+        <option value="読後の余韻に浸れる本">読後の余韻に浸れる本</option>
+      </select>
+<!-- 自由筆記 -->
+      <h2>Q3 この本を一言で表すと？</h2>
+      <textarea id="sentence" name="" id="" cols="50" rows="1"></textarea>
+<!-- 自由筆記 -->
+      <h2>Q4 この本について語ってください！</h2>
+      <textarea name="" id="thoughts" cols="50" rows="3" placeholder="記憶に残った一文、読み終わった後に自分の中に残ったもの……"></textarea>
+<!-- 登録ボタン -->
+      <br><input type="submit" value="Register" id="reg_send"></a>
+    </div>
+
+<!-- 本を検索するページ -->
+<!-- ■ ■ ■ ここで「職員」「管理職」「経営者」を選択すると、firebaseに登録した「title」に合致したものが出力される ■ ■ ■ -->
+<!-- ■ ■ ■ firebaseの昇順ソートで検索結果を切り替えようとするも上手くいかず断念-->
+    <div id="tab2">  
+      <p><strong>探す</strong></p>
+      <button id="pressS"   value="職員">表示</button>
+      <!-- <button id="pressM"   value="管理職">管理職</button>
+      <button id="pressC"  value="経営者">経営者</button> -->
+      <button id="delete"  value="delete">削除</button>
+      <p id="bookList"></p>
+    </div>
+
+<!-- ランダムで1冊表示するページ -->
+    <div id="tab3">
+      <p><strong>出会う</strong></p>
+      <button id="generate">先人との出会い</button>
+      <textarea id="isbn"></textarea>
+      <br><input type="submit" value="ISBN" id="isbn_send"></a>
+
+      <img src="" id="thumbnail_r">
+      <p class="hide">書籍名：<span id="booktitle_r"></span></p>
+      <p class="hide">出版社：<span id="publisher_r"></span></p>
+      <p class="hide">作者：<span id="author_r"></span></p>
+      <p class="hide">出版日：<span id="pubdate_r"></span></p>
+      <p class="hide">詳細：<span id="description_r"></span></p>
+    </div>
+    </div>
+  </div>
+</main>
+
+
+<!-- Firebase -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved, query, orderByChild, orderByValue}
+  from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-database.js"; 
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "",　//■ ■ ■　後で抜く　■ ■ ■
+    authDomain: "bookluck-40eff.firebaseapp.com",
+    databaseURL: "https://bookluck-40eff-default-rtdb.firebaseio.com",
+    projectId: "bookluck-40eff",
+    storageBucket: "bookluck-40eff.appspot.com",
+    messagingSenderId: "931805978661",
+    appId: "1:931805978661:web:bbbcf1c5b92a1383b11fcc"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const dbRegRef = ref(db, "bookRecommend");
+
+// Googlebooksのapiから書影とあらすじを入手
+  $("#click").on("click",function(){
+  let kensaku = document.getElementById('bookName').value;
+  $.get("https://www.googleapis.com/books/v1/volumes?q=" + kensaku, function(data){
+    console.log(data);
+    const items = data.items
+
+    document.getElementById('thumbnail').innerHTML = data.items[0].volumeInfo.imageLinks.thumbnail;
+    document.getElementById('description').innerHTML = data.items[0].volumeInfo.description;
+  });
+});
+
+// オススメ小説情報の登録
+  $("#reg_send").on("click", function(){
+    const item = {
+      bookName: $("#bookName").val(),
+      thumbnail: $("#thumbnail").val(),
+      description: $("#description").val(),
+      category: $("#category").val(),
+      sentence: $("#sentence").val(),
+      thoughts: $("#thoughts").val(),
+      title: $("#title").val(),
+    };
+    
+    const newRegRef = push(dbRegRef); 
+      set(newRegRef, item);
+      alert("Register Completed");
+    location.reload();
+  });
+
+// 検索結果表示画面
+$("#pressS").on("click", function(){
+
+  onChildAdded(dbRegRef, function(data){
+    const key = data.key;
+    const item = data.val();
+    const h = `<div class="bookCard" id="card">
+        <table>
+          <tr><th>役職</th><td>${item.title}</td></tr>
+          <tr><th>書名</th><td>${item.bookName}</td></tr>
+          <tr><th>所感</th><td>${item.category}</td></tr>
+          <tr><th>粗筋</th><td>${item.description}</td></tr>
+          <tr><th>一言</th><td>${item.sentence}</td></tr>
+          <tr><th>感想</th><td>${item.thoughts}</td></tr>
+        </table>
+        <div><img src="${item.thumbnail}" class="frontCover" alt="book cover"></div>
+        </p>`
+        $("#bookList").append(h);
+  });
+    });
+
+    //■ ■ ■ ここから先、消す可能性あり
+// $("#pressM").on("click", function(){
+//   onChildAdded(dbRegRef, function(data){
+//     const key = data.key;
+//     const item = data.val();
+//     const h = `<div class="bookCard" id="card">
+//         <table>
+//           <tr><th>役職</th><td>${item.title}</td></tr>
+//           <tr><th>書名</th><td>${item.bookName}</td></tr>
+//           <tr><th>所感</th><td>${item.category}</td></tr>
+//           <tr><th>粗筋</th><td>${item.description}</td></tr>
+//           <tr><th>一言</th><td>${item.sentence}</td></tr>
+//           <tr><th>感想</th><td>${item.thoughts}</td></tr>
+//         </table>
+//         <div><img src="${item.thumbnail}" class="frontCover" alt="book cover"></div>
+//         </p>`
+//         $("#bookList").append(h);
+//       });
+//     });
+
+// $("#pressC").on("click", function(){
+//   onChildAdded(dbRegRef, function(data){
+//     const key = data.key;
+//     const item = data.val();
+//     const h = `<div class="bookCard" id="card">
+//         <table>
+//           <tr><th>役職</th><td>${item.title}</td></tr>
+//           <tr><th>書名</th><td>${item.bookName}</td></tr>
+//           <tr><th>所感</th><td>${item.category}</td></tr>
+//           <tr><th>粗筋</th><td>${item.description}</td></tr>
+//           <tr><th>一言</th><td>${item.sentence}</td></tr>
+//           <tr><th>感想</th><td>${item.thoughts}</td></tr>
+//         </table>
+//         <div><img src="${item.thumbnail}" class="frontCover" alt="book cover"></div>
+//         </p>`
+//         $("#bookList").append(h);
+//       });
+//     });
+    //■ ■ ■ ここまで、消す可能性あり
+
+
+$("#delete").on("click", function(){
+    $('#bookList').empty();
+});
+
+//「Discover」の項目（予め決められた本を表示）
+$("#generate").on("click",function(){
+  const number = Math.floor(Math.random()*5)
+  if(number == 0){
+    document.getElementById('isbn').value = 9784569773681;
+    $("#isbn_send").click();
+    $("p").removeClass("hide"); 
+  }else if(number == 1){
+    document.getElementById('isbn').value = 9784023313460;
+    $("#isbn_send").click();
+    $("p").removeClass("hide"); 
+  }else if(number == 2){
+    document.getElementById('isbn').value = 9784478116814;
+    $("#isbn_send").click();
+    $("p").removeClass("hide"); 
+  }else if(number == 3){
+    document.getElementById('isbn').value = 9784925155915;
+    $("#isbn_send").click();
+    $("p").removeClass("hide"); 
+  }else{
+    document.getElementById('isbn').value = 9784863113206;
+    $("#isbn_send").click();    
+    $("p").removeClass("hide"); 
+  }
+});
+
+document.getElementById('isbn_send').addEventListener('click', () => {
+  // isbnに入力された値を取得
+  var userInput = document.getElementById('isbn').value;
+  var query = userInput.split(' ').join('+');
+  // APIを取得
+  const url = "https://api.openbd.jp/v1/get?isbn=" + query + "&pretty";
+
+  // json
+fetch(url).then(
+  response => {
+    return response.json();
+  }).then(data => {
+for (let i = 0; i < data.length; i++) {
+  // サムネイル
+  const bookImg = document.getElementById('thumbnail_r');
+  const bookImgSrc = data[0].summary.cover;
+  console.log(bookImgSrc);
+  bookImg.setAttribute('src', bookImgSrc);
+  //書籍名
+  document.getElementById('booktitle_r').innerHTML = data[0].summary.title;
+  //出版社
+  document.getElementById('publisher_r').innerHTML = data[0].summary.publisher;
+  //作者
+  document.getElementById('author_r').innerHTML = data[0].summary.author;
+  //出版日
+  document.getElementById('pubdate_r').innerHTML = data[0].summary.pubdate;
+  //詳細
+  document.getElementById('description_r').innerHTML = data[0].onix.CollateralDetail.TextContent[0].Text;
+}
+// 情報エリアの表示
+  document.getElementById('bookInfo').classList.add('show');
+
+}).catch(err => {
+  console.log('Error: ' + err)
+})
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Co-Library</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="./img/books.png">
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/script.js"></script>
+</head>
+<body>
+<header>
+  <img src="./img/books.png" alt="" class="airplane">
+
+  <h1>Co-Library</h1>
+</header>
+<main>
+    <h4>〜本を通して、一歩近づく〜</h4>
+    <div class="wrapper">    
+        <div id="loginBox">
+            <div id="userInfo">
+                <div>
+                    <input id="mailAddress" type="mailAddress" placeholder="メールアドレス" required>
+                </div>
+                <div>
+                    <input id="loginPass" type="password" placeholder="パスワード(最低6文字)" required>
+                </div>
+            </div>
+            
+            <div id="loginBtns">
+                <button id="login">入室</button>
+                <button id="register">上記内容で新規登録</button>
+            </div>
+        </div>
+    </div>
+    
+<script>
+    $(document).ready(function() {
+        $(document.body).hide().fadeIn(2000);
+        });
+</script>
+    
+       <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+            // realtimeDB
+            import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
+            from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-database.js"; 
+            // authentication
+            import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut }
+            from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth.js"
+    
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyBEuYxEtcGumw_xl3D_cYBGM-m3pKvG7ZM",　//■ ■ ■　後で抜く　■ ■ ■
+                authDomain: "bookluck-40eff.firebaseapp.com",
+                databaseURL: "https://bookluck-40eff-default-rtdb.firebaseio.com",
+                projectId: "bookluck-40eff",
+                storageBucket: "bookluck-40eff.appspot.com",
+                messagingSenderId: "931805978661",
+                appId: "1:931805978661:web:bbbcf1c5b92a1383b11fcc"
+            };
+    
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+    
+            // 新規登録
+            $("#register").on("click", function(){
+                const mailAddress = $("#mailAddress").val();
+                const loginPass = $("#loginPass").val();
+            
+                createUserWithEmailAndPassword(auth, mailAddress, loginPass)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        // ...
+                        alert("新規登録が完了しました");
+                        location.href = "./index.html"
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // ..
+                        alert(errorMessage);
+                    });
+            });
+    
+            $("#login").on("click", function(){
+                const mailAddress = $("#mailAddress").val();
+                const loginPass = $("#loginPass").val();
+            
+                signInWithEmailAndPassword(auth, mailAddress, loginPass)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        // ...
+                        // alert("");
+                        location.href = "./index.html"
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // ..
+                        alert(errorMessage);
+                    });
+            });
+        </script>
+    
+
+
+</main>
