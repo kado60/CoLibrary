@@ -150,9 +150,6 @@
     location.reload();
   });
 
-      // <p id="${key}" class="delete"><img src ="./img/delete.png" class="deleteBtn" alt="X"></p>
-
-
 // 検索結果表示画面
 $("#pressS").on("click", function(){
 
@@ -175,12 +172,18 @@ $("#pressS").on("click", function(){
   });
     });
 
-//■ ■ ■　削除機能を追加　■ ■ ■ （全て削除できてしまうので注意）
+//■ ■ ■　削除機能を追加　■ ■ ■ （注意を促して他人の投稿の削除を防ぐ）
     $(document).on("click", ".delete2", function(){ 
         let value = $(this).attr("id");
         const dbRefDel = ref(db, `bookRecommend/${value}`)
-        remove(dbRefDel);
+        var result = window.confirm("他の人の投稿をクリックした場合は「キャンセル」を押してください");
+        if( result ) {
+          remove(dbRefDel);
         $(this).parent().remove();
+        }
+        else {
+        alert('キャンセルされました');
+        }
         });
 
 
