@@ -172,6 +172,7 @@ $("#pressS").on("click", function(){
   });
     });
 
+//■ ■ ■　削除機能を追加　■ ■ ■
     $(document).on("click", ".delete", function(){ 
         let value = $(this).attr("id");
         const dbRefDel = ref(db, `bookRecommend/${value}`)
