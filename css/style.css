@@ -289,3 +289,8 @@ button:hover{
 	line-height: 1.2;        /* 行の高さ */	
 
 }
+
+.delete_btn{
+    width: 20px;
+    height: 20px;
+}
