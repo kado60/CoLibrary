@@ -290,7 +290,7 @@ button:hover{
 
 }
 
-.delete_btn{
+.deleteBtn{
     width: 20px;
-    height: 20px;
+    height: auto;
 }

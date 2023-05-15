@@ -157,7 +157,7 @@ $("#pressS").on("click", function(){
     const key = data.key;
     const item = data.val();
     const h = `<div class="bookCard" id="card">
-      <p id="${key}" class="delete"><img src ="./img/delete.png" class="delete_btn" alt="X"></p>
+      <p id="${key}" class="delete"><img src ="./img/delete.png" class="deleteBtn" alt="X"></p>
         <table>
           <tr><th>役職</th><td>${item.title}</td></tr>
           <tr><th>書名</th><td>${item.bookName}</td></tr>
@@ -172,7 +172,7 @@ $("#pressS").on("click", function(){
   });
     });
 
-//■ ■ ■　削除機能を追加　■ ■ ■
+//■ ■ ■　削除機能を追加　■ ■ ■ （全て削除できてしまうので注意）
     $(document).on("click", ".delete", function(){ 
         let value = $(this).attr("id");
         const dbRefDel = ref(db, `bookRecommend/${value}`)
